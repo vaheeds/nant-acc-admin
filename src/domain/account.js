@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  Filter,
   List,
   Datagrid,
   TextField,
@@ -15,8 +16,14 @@ import {
   SimpleFormIterator,
 } from 'react-admin';
 
+const AccountFilter = (props) => (
+  <Filter {...props}>
+    <TextInput label="Search Accounts" source="accountName" alwaysOn />
+  </Filter>
+);
+
 export const AccountList = (props) => (
-  <List {...props}>
+  <List filters={<AccountFilter />} {...props}>
     <Datagrid rowClick="edit">
       <NumberField source="initBalance" />
       <NumberField source="hitCount" />

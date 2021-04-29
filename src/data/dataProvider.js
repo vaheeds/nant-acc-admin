@@ -4,7 +4,7 @@ import apiUrl from '../config';
 
 const httpClient = fetchUtils.fetchJson;
 
-export default {
+const dataProvider = {
   getList: (resource, params) => {
     const { page, perPage } = params.pagination;
     const { field, order } = params.sort;
@@ -12,12 +12,11 @@ export default {
       sortBy: `${field}:${order}`,
       page: page,
       limit: perPage,
-      filter: params.filter,
+      ...params.filter,
     };
-    const url = `${apiUrl}/${resource}?${query}`;
-
+    const url = `${apiUrl}/${resource}?${stringify(query)}`;
     return httpClient(url).then(({ json }) => ({
-      data: json,
+      data: json.results,
       total: json.totalResults,
     }));
   },
@@ -41,6 +40,7 @@ export default {
     const query = {
       sortBy: `${field}:${order}`,
       limit: perPage,
+      page: page,
       filter: {
         ...params.filter,
         [params.target]: params.id,
@@ -49,7 +49,7 @@ export default {
     const url = `${apiUrl}/${resource}?${query}`;
 
     return httpClient(url).then(({ json }) => ({
-      data: json,
+      data: json.results,
       total: json.totalResults,
     }));
   },
@@ -93,3 +93,5 @@ export default {
     }).then(({ json }) => ({ data: json }));
   },
 };
+
+export default dataProvider;
