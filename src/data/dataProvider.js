@@ -35,13 +35,19 @@ const dataProvider = {
       data: json,
     })),
 
-  getMany: (resource, params) => {
-    const query = {
-      filter: JSON.stringify({ id: params.ids }),
-    };
-    const url = `${apiUrl}/${resource}?${stringify(query)}`;
-    return httpClient(url).then(({ json }) => ({ data: json }));
-  },
+  getMany: (
+    resource,
+    params //{
+  ) =>
+    // const query = {
+    //   filter: JSON.stringify({ id: params.ids }),
+    // };
+    // const url = `${apiUrl}/${resource}?${stringify(query)}`;
+    // return httpClient(url).then(({ json }) => ({ data: json }));
+    httpClient(`${apiUrl}/${resource}/${params.ids[0]}`).then(({ json }) => ({
+      data: [json],
+    })),
+  // },
 
   getManyReference: (resource, params) => {
     const { page, perPage } = params.pagination;

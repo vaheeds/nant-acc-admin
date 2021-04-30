@@ -14,6 +14,8 @@ import {
   TextInput,
   ArrayInput,
   SimpleFormIterator,
+  ReferenceInput,
+  SelectInput,
 } from 'react-admin';
 
 const AccountFilter = (props) => (
@@ -30,7 +32,7 @@ export const AccountList = (props) => (
       <TextField source="accountName" />
       <ArrayField source="tags">
         <SingleFieldList>
-          <ChipField source="title" />
+          <ChipField source="title" color="color" />
         </SingleFieldList>
       </ArrayField>
     </Datagrid>
@@ -43,7 +45,7 @@ export const AccountEdit = (props) => (
       <NumberInput source="initBalance" />
       <NumberInput source="hitCount" />
       <TextInput source="accountName" />
-      {/* <ArrayInput source="tags">
+      <ArrayInput source="tags">
         <SimpleFormIterator>
           <ReferenceInput source="_id" reference="s">
             <SelectInput optionText="id" />
@@ -51,7 +53,7 @@ export const AccountEdit = (props) => (
           <TextInput source="title" />
           <TextInput source="color" />
         </SimpleFormIterator>
-      </ArrayInput> */}
+      </ArrayInput>
     </SimpleForm>
   </Edit>
 );
