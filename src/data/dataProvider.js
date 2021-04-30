@@ -1,8 +1,17 @@
 import { fetchUtils } from 'react-admin';
 import { stringify } from 'query-string';
-import apiUrl from '../config';
+import apiUrl from '../config/config';
+import diff from '../utils/diff';
 
-const httpClient = fetchUtils.fetchJson;
+const httpClient = (url, options = {}) => {
+  if (!options.headers) {
+    options.headers = new Headers({ Accept: 'application/json' });
+  }
+  const authObject = JSON.parse(localStorage.getItem('auth'));
+  const token = authObject.tokens.access.token;
+  options.headers.set('Authorization', `Bearer ${token}`);
+  return fetchUtils.fetchJson(url, options);
+};
 
 const dataProvider = {
   getList: (resource, params) => {
@@ -41,10 +50,8 @@ const dataProvider = {
       sortBy: `${field}:${order}`,
       limit: perPage,
       page: page,
-      filter: {
-        ...params.filter,
-        [params.target]: params.id,
-      },
+      ...params.filter,
+      [params.target]: params.id,
     };
     const url = `${apiUrl}/${resource}?${query}`;
 
@@ -57,7 +64,7 @@ const dataProvider = {
   update: (resource, params) =>
     httpClient(`${apiUrl}/${resource}/${params.id}`, {
       method: 'PATCH',
-      body: JSON.stringify(params.data),
+      body: JSON.stringify(diff(params.data, params.previousData)),
     }).then(({ json }) => ({ data: json })),
 
   updateMany: (resource, params) => {
@@ -66,7 +73,7 @@ const dataProvider = {
     };
     return httpClient(`${apiUrl}/${resource}?${query}`, {
       method: 'PATCH',
-      body: JSON.stringify(params.data),
+      body: JSON.stringify(diff(params.data, params.previousData)),
     }).then(({ json }) => ({ data: json }));
   },
 

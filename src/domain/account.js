@@ -43,15 +43,15 @@ export const AccountEdit = (props) => (
       <NumberInput source="initBalance" />
       <NumberInput source="hitCount" />
       <TextInput source="accountName" />
-      <ArrayInput source="tags">
+      {/* <ArrayInput source="tags">
         <SimpleFormIterator>
-          {/* <ReferenceInput source="_id" reference="s">
+          <ReferenceInput source="_id" reference="s">
             <SelectInput optionText="id" />
-          </ReferenceInput> */}
+          </ReferenceInput>
           <TextInput source="title" />
           <TextInput source="color" />
         </SimpleFormIterator>
-      </ArrayInput>
+      </ArrayInput> */}
     </SimpleForm>
   </Edit>
 );
