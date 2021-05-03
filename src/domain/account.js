@@ -32,7 +32,7 @@ export const AccountList = (props) => (
       <TextField source="accountName" />
       <ArrayField source="tags">
         <SingleFieldList>
-          <ChipField source="title" color="color" />
+          <ChipField source="title" color="primary" />
         </SingleFieldList>
       </ArrayField>
     </Datagrid>
@@ -47,9 +47,6 @@ export const AccountEdit = (props) => (
       <TextInput source="accountName" />
       <ArrayInput source="tags">
         <SimpleFormIterator>
-          <ReferenceInput source="_id" reference="s">
-            <SelectInput optionText="id" />
-          </ReferenceInput>
           <TextInput source="title" />
           <TextInput source="color" />
         </SimpleFormIterator>
